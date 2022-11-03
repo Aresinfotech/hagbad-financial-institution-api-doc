@@ -1,0 +1,300 @@
+swagger: '2.0'
+schemes:
+  - https
+host: hagbad.greysystems.eu
+basePath: /api/v1
+info:
+  version: 1.0.0-beta
+  title: Hagbad Online REST API
+  contact:
+    email: developers@greysystems.eu
+    url: 'http://www.greysystems.eu/#contact'
+  license:
+    name: All Rights reserved GreySystems 2022
+    url: 'http://www.greysystems.eu'
+  termsOfService: 'https://www.greysystems.eu'
+  x-logo:
+    url: 'http://www.greysystems.eu/wp-content/uploads/2017/07/logo-Grey-menu.png'
+    background: '#FFFFFF'
+  description: |
+    This page contains the documentation on how to use the Hagbad API.
+
+    **API is in beta version, breaking changes may be introduced before the final release candidate is released**
+
+    # Introduction
+
+    The Hagbad  API is built on top of HTTP:
+    - RESTFul
+    - Predictable resource URLs. 
+    - Accepts and returns JSON in the HTTP body. 
+    - Returns HTTP response codes to indicate errors. 
+
+    You can use your favorite HTTP/REST library for your programming language to consume this API. 
+
+    # The Hagbad System
+    The Hagbad is an integrated set of APIs to validate an confirm "Into Holding" transaction.
+    There are the differentes modules exposed by this API: 
+
+    * **Into Holding**: Manage Into Holding transaction.
+    * **Financial Institutions APIs**: Recommendation for APIs of financial institutions.
+
+
+    # Authentication
+
+    All Hagbad APIs, including this one, use [OpenId Connect](http://openid.net) protocol to authenticate users. Specifically the security tokens used are JWT tokens. 
+
+    To issue new tokens, you have to use the Hagbad OpenId compliant server located at https://hagbad.greysystems.eu/auth (for more info please check [GreySystems Identity Server Doc](https://grey-systems.github.io/gs-identity-doc/))
+
+    * **User Token**: Gets an `access_token` issued on behalf of an end-user. To get an user access_token you have to implement the [Authorization Code Flow](https://www.keycloak.org/docs/3.3/server_admin/topics/sso-protocols/oidc.html). 
+
+    **How I use the tokens?**
+     As stated in the introduction, both tokens types are JWT tokens, and you should set that token in the HTTP `Authorization` Header of the API call in this way: 
+
+    ```
+    Authorization: Bearer {the_token}
+    ```
+
+    # Common HTTP Error Responses
+
+    The Rest API uses the following common HTTP status codes to communicate general issues or errors to the clients: 
+
+    * HTTP **400** (Invalid Request): The request provided is invalid (request is not well formed, a mandatory field is not provided, etc..). 
+    * HTTP **403** (Forbidden): You are not allowed to access or update the requested resource. 
+    * HTTP **404** (Not found): The searched item could not be found (the moneypool was not found, etc..). 
+    * HTTP **409** (Conflict): There is a conflict when trying to execute the operation (status change not allowed, etc..). 
+    * HTTP **500** (Internal Server Error): Some internal component has failed to process your request. Please notify about this error to GreySystems team.
+tags:
+  - name: into holding
+    description: Into holding operations.
+  - name: financial institutions
+    description: Financial Institutions APIs.
+securityDefinitions:
+  JWT:
+    description: 'You can obtain a JSON Web Token (`access_token`), using our OpenID Connect Authorizations Server'
+    type: apiKey
+    name: 'Authorization: Bearer access_token'
+    in: header
+security:
+  - JWT: []
+paths:
+  /validate:
+    post:
+      summary: Validate INH transaction.
+      description: |
+        Check if the into holding transfer is valid to confirm.
+      operationId: validateInh
+      parameters:
+        - name: IntoHoldingRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/IntoHoldingRequest'
+      tags:
+        - into holding
+      responses:
+        '200':
+          description: Transfer has been validated properly.
+        '400':
+          description: Invalid Request. message attribute of response contains detailed information about the issue.
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: 'Conflict. The beneficiary moneypool status does not allow operations, the selected customer does not belong to this moneypool, etc.'
+          schema:
+            $ref: '#/definitions/Error'
+  /comfirn:
+    post:
+      summary: Confirm INH transaction
+      description: |
+        Confirm a validated into holding transfer.
+      operationId: confirmInh
+      parameters:
+        - name: IntoHoldingRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/IntoHoldingRequest'
+      tags:
+        - into holding
+      responses:
+        '200':
+          description: Transfer has been validated properly.
+        '400':
+          description: Invalid Request. message attribute of response contains detailed information about the issue.
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: 'Conflict. The beneficiary moneypool status does not allow operations, the selected customer does not belong to this moneypool, etc.'
+          schema:
+            $ref: '#/definitions/Error'
+  /customer/search:
+    post:
+      summary: Search customer by phone and birth date
+      description: |
+        Search customer by phone and birth date.
+      operationId: searchCustomer
+      parameters:
+        - name: SearchCustomerRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SearchCustomerRequest'
+      tags:
+        - financial institutions
+      responses:
+        '200':
+          description: Transfer has been validated properly.
+          schema:
+            $ref: '#/definitions/SearchCustomerResponse'
+        '400':
+          description: Invalid Request. message attribute of response contains detailed information about the issue.
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        description: The error code. This error code should define the error type returned.
+        example: IH-0001
+      message:
+        type: string
+        description: The error description. A message that resume the error thrown by the system.
+        example: Something happened.
+  IntoHoldingRequest:
+    type: object
+    required:
+      - transactionCode
+      - sender
+      - beneficiary
+      - amount
+      - commission
+    properties:
+      transactionCode:
+        description: Transaction code.
+        type: string
+        example: TC00001
+      sender:
+        description: Sender information.
+        $ref: '#/definitions/SenderCustomer'
+      beneficiary:
+        description: Beneficiary (moneypool code).
+        type: string
+        example: MP001
+      amount:
+        description: Transaction amount.
+        $ref: '#/definitions/Amount'
+      commission:
+        description: Transaction commission.
+        $ref: '#/definitions/Amount'
+      remarks:
+        description: Remark message.
+        type: string
+        example: Inh transfer
+  SenderCustomer:
+    type: object
+    properties:
+      code:
+        description: Customer code.
+        type: string
+        example: CU123
+      name:
+        description: Customer name.
+        type: string
+        example: Ben
+      lastname:
+        description: Customer last name.
+        type: string
+        example: Simmons
+      birthDate:
+        description: Customer birthdate.
+        type: string
+        format: date
+        pattern: YYYY-MM-DD
+        example: '2021-05-23'
+      mobileNumber:
+        description: Customer mobile number.
+        type: string
+        example: '+34666666666'
+  Amount:
+    description: The amount and currency of the operation.
+    type: object
+    required:
+      - ccy
+      - value
+    properties:
+      ccy:
+        description: Currency.
+        type: string
+        example: EUR
+      value:
+        description: Amount.
+        type: number
+        format: double
+        example: 300.56
+  SearchCustomerRequest:
+    type: object
+    required:
+      - phoneNumber
+      - birthDate
+    properties:
+      phoneNumber:
+        description: Customer phone number.
+        type: string
+        example: '+34666666688'
+      birthDate:
+        description: Customer birthdate.
+        type: string
+        format: date
+        pattern: YYYY-MM-DD
+        example: '2021-05-23'
+  SearchCustomerResponse:
+    type: object
+    required:
+      - code
+      - firstName
+      - lastName
+      - email
+      - nationality
+      - birthDate
+      - cellPhone
+    properties:
+      code:
+        description: Customer code.
+        type: string
+        example: CU123
+      firstName:
+        description: Customer code.
+        type: string
+        example: Ben
+      lastName:
+        description: Customer last name.
+        type: string
+        example: Simmons
+      nationality:
+        description: Customer nationality.
+        type: string
+        example: ESP
+      email:
+        description: Customer email.
+        type: string
+        format: email
+        example: ESP
+      birthDate:
+        description: Customer birthdate.
+        type: string
+        format: date
+        pattern: YYYY-MM-DD
+        example: '2021-05-23'
+      phone:
+        description: Customer phone number.
+        type: string
+        example: '+34666666688'
+      cellPhone:
+        description: Customer mobile number.
+        type: string
+        example: '+34666666666'
