@@ -67,7 +67,7 @@ tags:
   - name: into holding
     description: Into holding operations.
   - name: financial institutions
-    description: Financial Institutions APIs.
+    description: Financial Institutions APIs. (Recommendations for your API)
     
 securityDefinitions:
   JWT:
@@ -205,6 +205,11 @@ definitions:
         type: string
         example: "Inh transfer"
   SenderCustomer:
+    required:
+      - name
+      - lastname
+      - birthDate
+      - mobileNumber
     type: object
     properties:
       code:
