@@ -30,7 +30,7 @@
     },
     {
       "name": "financial institutions",
-      "description": "Financial Institutions APIs."
+      "description": "Financial Institutions APIs. (Recommendations for your API)"
     }
   ],
   "securityDefinitions": {
@@ -216,6 +216,12 @@
       }
     },
     "SenderCustomer": {
+      "required": [
+        "name",
+        "lastname",
+        "birthDate",
+        "mobileNumber"
+      ],
       "type": "object",
       "properties": {
         "code": {
