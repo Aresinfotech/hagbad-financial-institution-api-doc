@@ -224,7 +224,7 @@ definitions:
         $ref: '#/definitions/Amount'
       commission:
         description: Transaction commission.
-        $ref: '#/definitions/AmountCommission'
+        $ref: '#/definitions/Commission'
       remarks:
         description: Remark message.
         type: string
@@ -275,7 +275,7 @@ definitions:
         type: number
         format: double
         example: 300.56
-  AmountCommission:
+  Commission:
     description: The amount and currency of the operation.
     type: object
     required:

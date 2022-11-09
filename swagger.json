@@ -210,7 +210,7 @@
         },
         "commission": {
           "description": "Transaction commission.",
-          "$ref": "#/definitions/AmountCommission"
+          "$ref": "#/definitions/Commission"
         },
         "remarks": {
           "description": "Remark message.",
@@ -278,7 +278,7 @@
         }
       }
     },
-    "AmountCommission": {
+    "Commission": {
       "description": "The amount and currency of the operation.",
       "type": "object",
       "required": [
