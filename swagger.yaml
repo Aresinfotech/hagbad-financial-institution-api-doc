@@ -22,8 +22,19 @@ info:
     **API is in beta version, breaking changes may be introduced before the final release candidate is released**
 
     # Introduction
+    This is the technical documentation for the IT team in charge of integrating Hagbad Moneypool System with their corporate financial platform.
 
-    The Hagbad  API is built on top of HTTP:
+    We must do 3 integrations to start using Hagbad Moneypool Platform as part of your financial offering. 
+
+    The table below illustrates those API integrations: 
+
+    | Operation | Description | API Owner | Integration done by |
+    |-----|-----|-------|-------|
+    | Into Holding | To send money into a moneypool by one of its members. | Hagbad IT Team | Financial Institution IT Team |
+    | Search Customer | To search customers in the financial institution database. | Financial Institution IT Team | Hagbad IT Team |
+    | Out of Holding | To send money from a moneypool to one of its members. | Financial Institution IT Team | Hagbad IT Team |
+
+     The Hagbad  API is built on top of HTTP:
     - RESTFul
     - Predictable resource URLs. 
     - Accepts and returns JSON in the HTTP body. 
@@ -31,12 +42,33 @@ info:
 
     You can use your favorite HTTP/REST library for your programming language to consume this API. 
 
-    # The Hagbad System
-    The Hagbad is an integrated set of APIs to validate an confirm "Into Holding" transaction.
-    There are the differentes modules exposed by this API: 
+    ## Into Holding Transactions
+    Into Holding transactions occur when customers of your financial institution want to send money to an Hagbad Moneypool, in which they are members.  
 
-    * **Into Holding**: Manage Into Holding transaction.
-    * **Financial Institutions APIs**: Recommendation for APIs of financial institutions.
+    ## Customer Search on Financial Institution Database
+
+    When we register new customers in Hagbad, we want to know if those persons are already customers in your Financial Institution. 
+
+    Therefore, you need to provide us with an API to search customers in your database by mobile number and birthdate.
+
+    We will allow people to register in Hagbad Platform, even if they are not customers of your Financial Institution. However, Hagbad customers must be registered on your Financial Institution to send or receive money from a moneypool.
+
+    In this section, we include the input and output that your API should provide to perform customer searchs.
+
+    ## Out of Holding Transactions
+
+    Moneypool members need to get paid at some moment. Those payments are the Out of Holding Transaction. 
+
+    We will push those payment orders to your Financial Institution, using the API that you must provide us for this purpose. 
+
+    Please, be aware that there are 2 different payment methods:
+      - Cash Pickup
+      - Mobile Wallet
+
+    In this section, we include the input and output that your API should provide to perform Out of Holdings.
+
+    # Hagbad System
+    Please, visit our website: www.hagbad.net
 
 
     # Authentication
@@ -65,9 +97,11 @@ info:
     * HTTP **500** (Internal Server Error): Some internal component has failed to process your request. Please notify about this error to GreySystems team.
 tags:
   - name: into holding
-    description: Into holding operations.
-  - name: financial institutions
-    description: Financial Institutions APIs. (Recommendations for your API)
+    description: To send money into a moneypool by one of its members.
+  - name: search customer
+    description: To search customers in the financial institution database.
+  - name: out of holding
+    description: To send money from a moneypool to one of its members.
 securityDefinitions:
   JWT:
     description: 'You can obtain a JSON Web Token (`access_token`), using our OpenID Connect Authorizations Server'
@@ -140,7 +174,7 @@ paths:
           schema:
             $ref: '#/definitions/SearchCustomerRequest'
       tags:
-        - financial institutions
+        - search customer
       responses:
         '200':
           description: Transfer has been validated properly.
@@ -190,7 +224,7 @@ definitions:
         $ref: '#/definitions/Amount'
       commission:
         description: Transaction commission.
-        $ref: '#/definitions/Amount'
+        $ref: '#/definitions/AmountCommission'
       remarks:
         description: Remark message.
         type: string
@@ -241,6 +275,22 @@ definitions:
         type: number
         format: double
         example: 300.56
+  AmountCommission:
+    description: The amount and currency of the operation.
+    type: object
+    required:
+      - ccy
+      - value
+    properties:
+      ccy:
+        description: Currency.
+        type: string
+        example: EUR
+      value:
+        description: Amount.
+        type: number
+        format: double
+        example: 5
   SearchCustomerRequest:
     type: object
     required:
