@@ -338,7 +338,7 @@ definitions:
         description: Customer email.
         type: string
         format: email
-        example: ESP
+        example: ag@mail.com
       birthDate:
         description: Customer birthdate.
         type: string
