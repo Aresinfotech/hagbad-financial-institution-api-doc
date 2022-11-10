@@ -1,4 +1,4 @@
-# Hagbad Online API OpenAPI Specification
+# Hagbad Financial Institution Online API OpenAPI Specification
 
 [![Build Status](https://travis-ci.org/grey-systems/hagbad-financial-institution-api-doc.svg?branch=master)](https://travis-ci.org/grey-systems/hagbad-financial-institution-api-doc)
 
