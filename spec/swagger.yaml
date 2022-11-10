@@ -74,13 +74,13 @@ info:
 tags:  
   - name: Into Holding
     description: | 
-        Into Holding Transactions.
+        ## Into Holding Transactions.
     
         Into Holding transactions occur when customers of your financial institution want to send money to an Hagbad Moneypool, in which they are members.  
 
   - name: Customer Search
     description:  | 
-        Customer Search on Financial Institution Database.
+        ## Customer Search on Financial Institution Database.
         
         When we register new customers in Hagbad, we want to know if those persons are already customers in your Financial Institution. 
 
@@ -91,7 +91,7 @@ tags:
         In this section, we include the input and output that your API should provide to perform customer searchs.
   - name: Out of Holding
     description: | 
-        Out of Holding Transactions.
+        ## Out of Holding Transactions.
     
         Moneypool members need to get paid at some moment. Those payments are the Out of Holding Transaction. 
 
