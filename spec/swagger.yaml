@@ -8,7 +8,8 @@ info:
   title: Hagbad Financial Institution Online REST API
   contact:
     email: developers@greysystems.eu
-    url: http://www.greysystems.eu/#contact
+    name: Contact
+    url: "http://www.greysystems.eu/#contact"
   license:
     name: All Rights reserved GreySystems 2022
     url: "http://www.greysystems.eu"
