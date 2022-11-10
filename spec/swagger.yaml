@@ -190,7 +190,32 @@ paths:
           description: Invalid Request. message attribute of response contains detailed information about the issue.
           schema:
             $ref: "#/definitions/Error"
-  
+  "/payment":
+    post:
+      summary: Make a payment to a moneypool beneficiary
+      description: |
+        **WARNING - INCOMPLETE**
+        
+        Make a payment to a moneypool beneficiary.
+        
+      operationId: makePayment
+      parameters:
+        - name: Payment
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/PaymentRequest"
+      tags:
+        - Out of Holding
+      responses:
+        "200":
+          description: Payment was successful.
+          schema:
+            $ref: "#/definitions/PaymentResponse"
+        "400":
+          description: Invalid Request. message attribute of response contains detailed information about the issue.
+          schema:
+            $ref: "#/definitions/Error"
   
 definitions:
   Error:
@@ -238,6 +263,7 @@ definitions:
         description: Remark message.
         type: string
         example: "Inh transfer"
+        
   SenderCustomer:
     required:
       - name
@@ -268,6 +294,7 @@ definitions:
         description: Customer mobile number.
         type: string
         example: "+34666666666"
+        
   Amount:
     description: The amount and currency of the operation.
     type: object
@@ -284,6 +311,7 @@ definitions:
         type: "number"
         format: "double"
         example: 300.56
+        
   Commission:
     description: The amount and currency of the operation.
     type: object
@@ -317,6 +345,7 @@ definitions:
         format: date
         pattern: "YYYY-MM-DD"
         example: "2021-05-23"
+        
   SearchCustomerResponse:
     type: object
     required:
@@ -363,5 +392,42 @@ definitions:
         description: Customer mobile number.
         type: string
         example: "+34666666666"  
-  
-  
+
+  PaymentRequest:
+    type: object
+    required:
+      - moneypoolId
+      - destinationCustomerId
+      - position
+      - amount
+    properties:
+      moneypoolId:
+        description: Moneyool Id.
+        type: "number"
+        format: "int"
+        example: 1  
+      destinationCustomerId:
+        description: Destination customer Id.
+        type: "number"
+        format: "int"
+        example: 1  
+      position:
+        description: Position.
+        type: "number"
+        format: "int"
+        example: 3  
+      amount:
+        description: Transaction amount.
+        $ref: "#/definitions/Amount"
+
+  PaymentResponse:
+    type: object
+    required:
+      - transactionCode
+    properties:
+      transactionCode:
+        description: Transaction code.
+        type: string
+        example: PY00002
+        
+        
