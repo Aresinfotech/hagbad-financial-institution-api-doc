@@ -26,15 +26,15 @@
   "tags": [
     {
       "name": "Into Holding",
-      "description": "Into Holding Transactions.\n\nInto Holding transactions occur when customers of your financial institution want to send money to an Hagbad Moneypool, in which they are members.  \n"
+      "description": "## Into Holding Transactions.\n\nInto Holding transactions occur when customers of your financial institution want to send money to an Hagbad Moneypool, in which they are members.  \n"
     },
     {
       "name": "Customer Search",
-      "description": "Customer Search on Financial Institution Database.\n\nWhen we register new customers in Hagbad, we want to know if those persons are already customers in your Financial Institution. \n\nTherefore, you need to provide us with an API to search customers in your database by mobile number and birthdate.\n\nWe will allow people to register in Hagbad Platform, even if they are not customers of your Financial Institution. However, Hagbad customers must be registered on your Financial Institution to send or receive money from a moneypool.\n\nIn this section, we include the input and output that your API should provide to perform customer searchs.\n"
+      "description": "## Customer Search on Financial Institution Database.\n\nWhen we register new customers in Hagbad, we want to know if those persons are already customers in your Financial Institution. \n\nTherefore, you need to provide us with an API to search customers in your database by mobile number and birthdate.\n\nWe will allow people to register in Hagbad Platform, even if they are not customers of your Financial Institution. However, Hagbad customers must be registered on your Financial Institution to send or receive money from a moneypool.\n\nIn this section, we include the input and output that your API should provide to perform customer searchs.\n"
     },
     {
       "name": "Out of Holding",
-      "description": "Out of Holding Transactions.\n\nMoneypool members need to get paid at some moment. Those payments are the Out of Holding Transaction. \n\nWe will push those payment orders to your Financial Institution, using the API that you must provide us for this purpose. \n\nPlease, be aware that there are 2 different payment methods:\n- Cash Pickup\n- Mobile Wallet\n\nIn this section, we include the input and output that your API should provide to perform Out of Holdings.\n"
+      "description": "## Out of Holding Transactions.\n\nMoneypool members need to get paid at some moment. Those payments are the Out of Holding Transaction. \n\nWe will push those payment orders to your Financial Institution, using the API that you must provide us for this purpose. \n\nPlease, be aware that there are 2 different payment methods:\n- Cash Pickup\n- Mobile Wallet\n\nIn this section, we include the input and output that your API should provide to perform Out of Holdings.\n"
     }
   ],
   "securityDefinitions": {
