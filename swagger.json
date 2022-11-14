@@ -163,7 +163,7 @@
     "/payment": {
       "post": {
         "summary": "Make a payment to a moneypool beneficiary",
-        "description": "**WARNING - INCOMPLETE**\n\nMake a payment to a moneypool beneficiary.\n",
+        "description": "Make a payment to a moneypool beneficiary.\n",
         "operationId": "makePayment",
         "parameters": [
           {
@@ -264,7 +264,7 @@
       "type": "object",
       "properties": {
         "code": {
-          "description": "Customer code.",
+          "description": "Customer code. (If you search by code, the other fields are not required)",
           "type": "string",
           "example": "CU123"
         },
@@ -415,25 +415,23 @@
     "PaymentRequest": {
       "type": "object",
       "required": [
-        "moneypoolId",
-        "destinationCustomerId",
-        "position",
+        "moneypoolCode",
+        "beneficiaryCode",
+        "moneypoolPosition",
         "amount"
       ],
       "properties": {
-        "moneypoolId": {
-          "description": "Moneyool Id.",
-          "type": "number",
-          "format": "int",
-          "example": 1
+        "moneypoolCode": {
+          "description": "Moneyool Code (Sender).",
+          "type": "string",
+          "example": "MP200"
         },
-        "destinationCustomerId": {
-          "description": "Destination customer Id.",
-          "type": "number",
-          "format": "int",
-          "example": 1
+        "beneficiaryCode": {
+          "description": "Beneficiary code.",
+          "type": "string",
+          "example": "CU125"
         },
-        "position": {
+        "moneypoolPosition": {
           "description": "Position.",
           "type": "number",
           "format": "int",
