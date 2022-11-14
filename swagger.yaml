@@ -362,7 +362,7 @@ definitions:
       nationality:
         description: Customer nationality.
         type: string
-        example: ESP
+        example: ES
       email:
         description: Customer email.
         type: string
