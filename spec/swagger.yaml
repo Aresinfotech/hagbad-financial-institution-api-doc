@@ -291,7 +291,7 @@ definitions:
         pattern: "YYYY-MM-DD"
         example: "2021-05-23"
       mobileNumber:
-        description: Customer mobile number.
+        description: Customer mobile number. Be sure to use international format ('+41 44 668 18 00', '044 668 18 00', '+41446681800')
         type: string
         example: "+34666666666"
         
@@ -341,7 +341,7 @@ definitions:
         type: string
         example: CU123
       phoneNumber:
-        description: Customer phone number.
+        description: Customer phone number. Be sure to use international format ('+41 44 668 18 00', '044 668 18 00', '+41446681800')  
         type: string
         example: "+34666666688"
       birthDate:
@@ -390,42 +390,41 @@ definitions:
         pattern: "YYYY-MM-DD"
         example: "2021-05-23"
       cellPhone:
-        description: Customer mobile number.
+        description: Customer mobile number. Be sure to use international format ('+41 44 668 18 00', '044 668 18 00', '+41446681800')
         type: string
         example: "+34666666666"  
       address:
         description: Customer address.
         $ref: "#/definitions/Address"
 
-Address:
+  Address:
     type: object
     properties:
       address1:
-        description: Address first line (street).
-        type: Integer
-        example: Elm Street, 13
+        description: "Address first line (street)."
+        type: string
+        example: "Elm Street, 13"
       address2:
         description: Address second line (House number, floor...etc.).
-        type: String
+        type: string
         example: Second floor, door C
       city:
         description: City.
-        type: String
+        type: string
         example: Madrid
       state:
         description: State.
-        type: String
+        type: string
         example: Madrid
       country:
         description: Country.
-        type: String
+        type: string
         example: ES
       zipCode:
         description: Postal code.
-        type: String
+        type: string
         example: 1232F
-
-
+        
   PaymentRequest:
     type: object
     required:
