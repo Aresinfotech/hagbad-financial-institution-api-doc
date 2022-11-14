@@ -188,8 +188,6 @@ paths:
     post:
       summary: Make a payment to a moneypool beneficiary
       description: |
-        **WARNING - INCOMPLETE**
-
         Make a payment to a moneypool beneficiary.
       operationId: makePayment
       parameters:

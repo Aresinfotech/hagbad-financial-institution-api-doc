@@ -163,7 +163,7 @@
     "/payment": {
       "post": {
         "summary": "Make a payment to a moneypool beneficiary",
-        "description": "**WARNING - INCOMPLETE**\n\nMake a payment to a moneypool beneficiary.\n",
+        "description": "Make a payment to a moneypool beneficiary.\n",
         "operationId": "makePayment",
         "parameters": [
           {
