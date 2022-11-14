@@ -194,7 +194,9 @@ paths:
   "/payment":
     post:
       summary: Make a payment to a moneypool beneficiary
-      description: |        
+      description: |
+        **WARNING - INCOMPLETE**
+        
         Make a payment to a moneypool beneficiary.
         
       operationId: makePayment
@@ -265,6 +267,7 @@ definitions:
         
   SenderCustomer:
     required:
+      - code
       - name
       - lastname
       - birthDate
@@ -272,7 +275,7 @@ definitions:
     type: object
     properties:
       code:
-        description: Customer code. (If you search by code, the other fields are not required)
+        description: Customer code.
         type: string
         example: CU123
       name:
@@ -331,9 +334,14 @@ definitions:
   SearchCustomerRequest:
     type: object
     required:
+      - code 
       - phoneNumber
       - birthDate
     properties:
+      code:
+        description: Customer code. (If you search by code, the other fields are not required)
+        type: string
+        example: CU123
       phoneNumber:
         description: Customer phone number.
         type: string
