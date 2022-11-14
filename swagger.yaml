@@ -163,7 +163,7 @@ paths:
             $ref: '#/definitions/Error'
   /customer/search:
     post:
-      summary: Search customer by phone and birth date
+      summary: Search customer by phone and birth date or code
       description: |
         Search customer by phone and birth date.
       operationId: searchCustomer
