@@ -194,9 +194,7 @@ paths:
   "/payment":
     post:
       summary: Make a payment to a moneypool beneficiary
-      description: |
-        **WARNING - INCOMPLETE**
-        
+      description: |        
         Make a payment to a moneypool beneficiary.
         
       operationId: makePayment
@@ -274,7 +272,7 @@ definitions:
     type: object
     properties:
       code:
-        description: Customer code.
+        description: Customer code. (If you search by code, the other fields are not required)
         type: string
         example: CU123
       name:
@@ -397,22 +395,20 @@ definitions:
   PaymentRequest:
     type: object
     required:
-      - moneypoolId
-      - destinationCustomerId
-      - position
+      - moneypoolCode
+      - beneficiaryCode
+      - moneypoolPosition
       - amount
     properties:
-      moneypoolId:
-        description: Moneyool Id.
-        type: "number"
-        format: "int"
-        example: 1  
-      destinationCustomerId:
-        description: Destination customer Id.
-        type: "number"
-        format: "int"
-        example: 1  
-      position:
+      moneypoolCode:
+        description: Moneyool Code (Sender).
+        type: "string"
+        example: "MP200"
+      beneficiaryCode:
+        description: Beneficiary code.
+        type: "string"
+        example: "CU125"  
+      moneypoolPosition:
         description: Position.
         type: "number"
         format: "int"
