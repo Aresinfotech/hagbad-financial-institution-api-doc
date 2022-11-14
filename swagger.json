@@ -128,8 +128,8 @@
     },
     "/customer/search": {
       "post": {
-        "summary": "Search customer by phone and birth date or code",
-        "description": "Search customer by phone and birth date.\n",
+        "summary": "Search customer",
+        "description": "Search customer by phone and birth date or code.\n",
         "operationId": "searchCustomer",
         "parameters": [
           {
