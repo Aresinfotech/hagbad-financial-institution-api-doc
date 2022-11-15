@@ -15,7 +15,7 @@ info:
     url: 'http://www.greysystems.eu'
   termsOfService: 'https://www.greysystems.eu'
   x-logo:
-    url: 'http://www.greysystems.eu/wp-content/uploads/2017/07/logo-Grey-menu.png'
+    url: (.images/hagbad_logo.png)
     background: '#FFFFFF'
   description: |
     This page contains the documentation on how to use the Hagbad API.
@@ -320,7 +320,6 @@ definitions:
     required:
       - customerCode
       - phoneNumber
-      - birthDate
     properties:
       customerCode:
         description: 'Customer code. (If you search by code, the other fields are not required)'
