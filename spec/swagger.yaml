@@ -15,7 +15,7 @@ info:
     url: "http://www.greysystems.eu"
   termsOfService: "https://www.greysystems.eu"
   x-logo:
-    url: (.images/hagbad_logo.png)
+    url: "./images/images/hagbad_logo.png",
     background: "#FFFFFF"
   description: |
     This page contains the documentation on how to use the Hagbad API.
