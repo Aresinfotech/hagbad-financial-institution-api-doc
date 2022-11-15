@@ -287,8 +287,7 @@
           "example": "2021-05-23"
         },
         "mobileNumber": {
-          "description": "Customer mobile number. Be sure to use international.",
-          "format": "+\"country code\"\"mobile number\"",
+          "description": "Customer mobile number. Be sure to use international; \"+\" \"Country Code\" \"Mobile Number\".",
           "type": "string",
           "example": "+34666666666"
         }
@@ -350,8 +349,7 @@
           "example": "CU123"
         },
         "phoneNumber": {
-          "description": "Customer phone number. Be sure to use international.",
-          "format": "+\"country code\"\"mobile number\"",
+          "description": "Customer phone number. Be sure to use international; \"+\" \"Country Code\" \"Mobile Number\".",
           "type": "string",
           "example": "+34666666688"
         },
@@ -411,8 +409,7 @@
           "example": "2021-05-23"
         },
         "cellPhone": {
-          "description": "Customer mobile number. Be sure to use international.",
-          "format": "+\"country code\"\"mobile number\"",
+          "description": "Customer mobile number. Be sure to use international; \"+\" \"Country Code\" \"Mobile Number\".",
           "type": "string",
           "example": "+34666666666"
         },
