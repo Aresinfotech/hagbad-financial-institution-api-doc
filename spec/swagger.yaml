@@ -291,7 +291,7 @@ definitions:
         pattern: "YYYY-MM-DD"
         example: "2021-05-23"
       mobileNumber:
-        description: Customer mobile number. Be sure to use international: "+" "Country Code" "Mobile Number".
+        description: Customer mobile number. Be sure to use international; "+" "Country Code" "Mobile Number".
         type: string
         example: "+34666666666"
         
@@ -341,7 +341,7 @@ definitions:
         type: string
         example: CU123
       phoneNumber:
-        description: Customer phone number. Be sure to use international: "+" "Country Code" "Mobile Number".
+        description: Customer phone number. Be sure to use international; "+" "Country Code" "Mobile Number".
         type: string
         example: "+34666666688"
       birthDate:
@@ -391,7 +391,7 @@ definitions:
         pattern: "YYYY-MM-DD"
         example: "2021-05-23"
       cellPhone:
-        description: Customer mobile number. Be sure to use international: "+" "Country Code" "Mobile Number".
+        description: Customer mobile number. Be sure to use international; "+" "Country Code" "Mobile Number".
         type: string
         example: "+34666666666"  
       address:
