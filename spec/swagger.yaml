@@ -268,7 +268,6 @@ definitions:
       - code
       - name
       - lastname
-      - birthDate
       - mobileNumber
     type: object
     properties:
