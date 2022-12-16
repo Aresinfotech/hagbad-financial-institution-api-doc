@@ -276,7 +276,7 @@ definitions:
         description: Customer birthdate.
         type: string
         format: date
-        pattern: YYYY-MM-DD
+        pattern: yyyy-MM-dd
         example: '2021-05-23'
       mobileNumber:
         description: Customer mobile number. Be sure to use international; "+" "Country Code" "Mobile Number".
@@ -332,7 +332,7 @@ definitions:
         description: Customer birthdate.
         type: string
         format: date
-        pattern: YYYY-MM-DD
+        pattern: yyyy-MM-dd
         example: '2021-05-23'
   SearchCustomerResponse:
     type: object
@@ -371,7 +371,7 @@ definitions:
         description: Customer birthdate.
         type: string
         format: date
-        pattern: YYYY-MM-DD
+        pattern: yyyy-MM-dd
         example: '2021-05-23'
       cellPhone:
         description: Customer mobile number. Be sure to use international; "+" "Country Code" "Mobile Number".

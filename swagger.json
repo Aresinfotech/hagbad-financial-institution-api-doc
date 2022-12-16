@@ -282,7 +282,7 @@
           "description": "Customer birthdate.",
           "type": "string",
           "format": "date",
-          "pattern": "YYYY-MM-DD",
+          "pattern": "yyyy-MM-dd",
           "example": "2021-05-23"
         },
         "mobileNumber": {
@@ -355,7 +355,7 @@
           "description": "Customer birthdate.",
           "type": "string",
           "format": "date",
-          "pattern": "YYYY-MM-DD",
+          "pattern": "yyyy-MM-dd",
           "example": "2021-05-23"
         }
       }
@@ -403,7 +403,7 @@
           "description": "Customer birthdate.",
           "type": "string",
           "format": "date",
-          "pattern": "YYYY-MM-DD",
+          "pattern": "yyyy-MM-dd",
           "example": "2021-05-23"
         },
         "cellPhone": {
