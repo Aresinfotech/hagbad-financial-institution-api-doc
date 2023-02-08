@@ -1,78 +1,72 @@
-swagger: '2.0'
+openapi: 3.1.0
 schemes:
   - https
 host: hagbad.greysystems.eu
-basePath: /api/v1
+basePath: /partner/api/v1
 info:
   version: 1.0.0-beta
-  title: Hagbad Financial Institution Online REST API
+  title: Hagbad Financial institutions API
   contact:
     email: developers@greysystems.eu
     name: Contact URL
     url: 'http://www.greysystems.eu/#contact'
   license:
-    name: All Rights reserved GreySystems 2022
+    name: All Rights reserved GreySystems 2023
     url: 'http://www.greysystems.eu'
   termsOfService: 'https://www.greysystems.eu'
   x-logo:
     url: 'https://www.hagbad.net/wp-content/themes/moneypool/images/logo.png'
     background: '#FFFFFF'
   description: |
-    This page contains the documentation on how to use the Hagbad API.
+    This page contains the documentation on how to use the Hagbad's financial institution API.
 
     **API is in beta version, breaking changes may be introduced before the final release candidate is released**
 
     # Introduction
     This is the technical documentation for the IT team in charge of integrating Hagbad Moneypool System with their corporate financial platform.
 
-    We must do 3 integrations to start using Hagbad Moneypool Platform as part of your financial offering. 
+    We offer 3 integrations to start using Hagbad Moneypool Platform as part of your financial offering. 
 
     The table below illustrates those API integrations: 
 
     | Operation | Description | API Owner | Integration done by |
     |-----|-----|-------|-------|
-    | Into Holding | To send money into a moneypool by one of its members. | Hagbad IT Team | Financial Institution IT Team |
-    | Search Customer | To search customers in the financial institution database. | Financial Institution IT Team | Hagbad IT Team |
-    | Out of Holding | To send money from a moneypool to one of its members. | Financial Institution IT Team | Hagbad IT Team |
+    | **Authentication** |  Get authorization to use the API's resources. | Hagbad IT Team | Financial Institution IT Team |
+    | **Into Holding** | To send money into a moneypool by one of its members. | Hagbad IT Team | Financial Institution IT Team |
+    | **Search Customer** | To search customers in the financial institution database. | Financial Institution IT Team | Hagbad IT Team |
+    | **Out of Holding** | To send money from a moneypool to one of its members. | Financial Institution IT Team | Hagbad IT Team |
 
      The Hagbad  API is built on top of HTTP:
-    - RESTFul
-    - Predictable resource URLs. 
-    - Accepts and returns JSON in the HTTP body. 
-    - Returns HTTP response codes to indicate errors. 
+    * RESTFul
+    * Predictable resource URLs. 
+    * Accepts and returns JSON in the HTTP body. 
+    * Returns HTTP response codes to indicate errors. 
 
     You can use your favorite HTTP/REST library for your programming language to consume this API. 
-     
-     
-    # Hagbad System
-    Please, visit our website: www.hagbad.net
-
-
-    # Authentication
-
-    All Hagbad APIs, including this one, use [OpenId Connect](http://openid.net) protocol to authenticate users. Specifically the security tokens used are JWT tokens. 
-
-    To issue new tokens, you have to use the Hagbad OpenId compliant server located at https://hagbad.greysystems.eu/auth (for more info please check [GreySystems Identity Server Doc](https://grey-systems.github.io/gs-identity-doc/))
-
-    * **User Token**: Gets an `access_token` issued on behalf of an end-user. To get an user access_token you have to implement the [Authorization Code Flow](https://www.keycloak.org/docs/3.3/server_admin/topics/sso-protocols/oidc.html). 
-
-    **How I use the tokens?**
-     As stated in the introduction, both tokens types are JWT tokens, and you should set that token in the HTTP `Authorization` Header of the API call in this way: 
-
-    ```
-    Authorization: Bearer {the_token}
-    ```
 
     # Common HTTP Error Responses
 
     The Rest API uses the following common HTTP status codes to communicate general issues or errors to the clients: 
 
     * HTTP **400** (Invalid Request): The request provided is invalid (request is not well formed, a mandatory field is not provided, etc..). 
-    * HTTP **403** (Forbidden): You are not allowed to access or update the requested resource. 
+    * HTTP **401** (Unauthorized): You are not allowed to access or update the requested resource. 
     * HTTP **404** (Not found): The searched item could not be found (the moneypool was not found, etc..). 
     * HTTP **409** (Conflict): There is a conflict when trying to execute the operation (status change not allowed, etc..). 
     * HTTP **500** (Internal Server Error): Some internal component has failed to process your request. Please notify about this error to GreySystems team.
 tags:
+  - name: authentication
+    description: |
+      All Hagbad's financial institution API require to be authenticated in order to use information.
+
+      The system will require a valid `access_token` that will be filled in a HTTP header called `Authorization`. Furthermore, it is required to add the word Bearer to this header. Let see a valid `Authorization` header example:
+
+      ```
+        Authorization: Bearer {access_token}
+      ```
+
+      The `access_token` is a JWT token. You can decode this token using this web tool: [jwt.io](https://jwt.io)
+
+      Please, see the **/login** method in order to know how to get a valid `access_token`.
   - name: Into Holding
     description: |
       ## Into Holding Transactions.
@@ -102,15 +96,33 @@ tags:
       - Mobile Wallet
 
       In this section, we include the input and output that your API should provide to perform Out of Holdings.
-securityDefinitions:
-  JWT:
-    description: 'You can obtain a JSON Web Token (`access_token`), using our OpenID Connect Authorizations Server'
-    type: apiKey
-    name: 'Authorization: Bearer access_token'
-    in: header
-security:
-  - JWT: []
 paths:
+  /login:
+    post:
+      summary: Login
+      operationId: LoginFinancialInstitution
+      tags:
+        - authentication
+      description: |
+        Do login in the system and get a valid `access_token` in order to authenticate API's requests.
+
+        #### IMPORTANT:
+          Please, note that the `access_token` has expiration time. When the `access_token` is expired you should request a new one using this **login** method, otherwise, you will get `401 - Unauthorized` status error.
+      parameters:
+        - name: LoginRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      responses:
+        '200':
+          description: You have been authenticated in the system properly.
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '400':
+          description: Bad Request. Somethin is wrong.
+          schema:
+            $ref: '#/definitions/LoginErrorResponse'
   /validate:
     post:
       summary: Validate INH transaction.
@@ -118,16 +130,16 @@ paths:
         Check if the into holding transfer is valid to confirm.
       operationId: validateInh
       parameters:
-        - name: IntoHoldingRequest
+        - name: IntoHoldingValidationRequest
           in: body
           required: true
           schema:
-            $ref: '#/definitions/IntoHoldingRequest'
+            $ref: '#/definitions/IntoHoldingValidationRequest'
       tags:
         - Into Holding
       responses:
         '200':
-          description: Transfer has been validated properly.
+          description: Transfer has been validated properly. The response hasn't body.
         '400':
           description: Invalid Request. message attribute of response contains detailed information about the issue.
           schema:
@@ -136,7 +148,7 @@ paths:
           description: 'Conflict. The beneficiary moneypool status does not allow operations, the selected customer does not belong to this moneypool, etc.'
           schema:
             $ref: '#/definitions/Error'
-  /comfirn:
+  /confirm:
     post:
       summary: Confirm INH transaction
       description: |
@@ -152,7 +164,7 @@ paths:
         - Into Holding
       responses:
         '200':
-          description: Transfer has been validated properly.
+          description: Transfer has been validated properly. The response hasn't body.
         '400':
           description: Invalid Request. message attribute of response contains detailed information about the issue.
           schema:
@@ -222,6 +234,31 @@ definitions:
         type: string
         description: The error description. A message that resume the error thrown by the system.
         example: Something happened.
+  IntoHoldingValidationRequest:
+    type: object
+    required:
+      - sender
+      - beneficiary
+      - amount
+      - commission
+    properties:
+      sender:
+        description: Sender information.
+        $ref: '#/definitions/SenderCustomer'
+      beneficiary:
+        description: Beneficiary (moneypool code).
+        type: string
+        example: MP001
+      amount:
+        description: Transaction amount.
+        $ref: '#/definitions/Amount'
+      commission:
+        description: Transaction commission.
+        $ref: '#/definitions/Amount'
+      remarks:
+        description: Remark message.
+        type: string
+        example: Inh transfer
   IntoHoldingRequest:
     type: object
     required:
@@ -254,9 +291,6 @@ definitions:
         example: Inh transfer
   SenderCustomer:
     required:
-      - code
-      - name
-      - lastname
       - mobileNumber
     type: object
     properties:
@@ -468,3 +502,47 @@ definitions:
         description: Transaction Code generated by the Financial Institution.
         type: string
         example: PY00002
+  LoginRequest:
+    type: object
+    required:
+      - financial-institution
+      - secret
+    properties:
+      financial-institution:
+        type: string
+        description: The financial institution allowed to send Into Holding transfers to the system.
+      secret:
+        type: string
+        description: Your secret! This secret is provided by the Hagbad team and could be refreshed from time in time.
+  LoginResponse:
+    type: object
+    properties:
+      access_token:
+        type: string
+        description: 'The `access_token`. This is the token generated by our identity broker and is the token that you will use to authenticate the requests. This token has expiration time (defined in the field `expires_in`) so, the token will not be valid if has been expired.'
+      expires_in:
+        type: number
+        description: This field define how many seconds is the `access_token` valid. The expiration time is configurable and it could change for security reasons.
+        example: 300
+      token_type:
+        type: string
+        description: The `access_token`'s type. Usually this value will be `bearer`
+        example: bearer
+      id_token:
+        type: string
+        description: The internal `access_token`'s identifier. Save this id could be useful.
+      scope:
+        type: string
+        description: The scope allowed for the `access_token`
+        example: openid profile email
+  LoginErrorResponse:
+    type: object
+    properties:
+      error:
+        type: string
+        description: An Error identifier.
+        example: invalid_client
+      error_description:
+        type: string
+        description: The error description.
+        example: Invalid client credentials
