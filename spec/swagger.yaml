@@ -172,7 +172,7 @@ paths:
         - Into Holding
       responses:
         "200":
-          description: Transfer has been validated properly. The response hasn't body.
+          description: Transfer has been validated properly.
           schema:
             $ref: "#/definitions/IntoHoldingResponse"
         "400":
@@ -200,7 +200,7 @@ paths:
         - Customer Search
       responses:
         "200":
-          description: Transfer has been validated properly.
+          description: List of customer.
           schema:
             $ref: "#/definitions/SearchCustomerResponse"
         "400":
